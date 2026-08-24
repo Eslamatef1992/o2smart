@@ -14,6 +14,7 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   namedPlaceholders: true,
   dateStrings: true,
+  charset: 'utf8mb4',
 });
 
 async function pingDatabase() {

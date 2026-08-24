@@ -4,29 +4,42 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './components/AdminLayout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import PlaceholderModule from './pages/PlaceholderModule';
+
 import CategoriesList from './pages/categories/CategoriesList';
 
-// Every module besides categories is a placeholder for now — swap each in
-// for a real page (following the categories folder as the pattern) as it
-// gets built, per build-spec.md §11.
-const PLACEHOLDER_ROUTES = [
-  { path: '/subcategories', key: 'subcategories' },
-  { path: '/products', key: 'products' },
-  { path: '/brands', key: 'brands' },
-  { path: '/attributes', key: 'attributes' },
-  { path: '/stock', key: 'stock' },
-  { path: '/orders', key: 'orders' },
-  { path: '/guest-orders', key: 'guestOrders' },
-  { path: '/payment-links', key: 'paymentLinks' },
-  { path: '/promo-codes', key: 'promoCodes' },
-  { path: '/reviews', key: 'reviews' },
-  { path: '/cms-pages', key: 'cmsPages' },
-  { path: '/cms-banners', key: 'cmsBanners' },
-  { path: '/settings', key: 'settings' },
-  { path: '/roles', key: 'roles' },
-  { path: '/admins', key: 'admins' },
-];
+import SubcategoriesList from './pages/subcategories/SubcategoriesList';
+
+import ProductsList from './pages/products/ProductsList';
+import ProductForm from './pages/products/ProductForm';
+
+import BrandsList from './pages/brands/BrandsList';
+
+import AttributesList from './pages/attributes/AttributesList';
+import AttributeValuesList from './pages/attributes/AttributeValuesList';
+
+import StockList from './pages/stock/StockList';
+
+import OrdersList from './pages/orders/OrdersList';
+import OrderForm from './pages/orders/OrderForm';
+
+import GuestOrdersList from './pages/guest-orders/GuestOrdersList';
+import GuestOrderForm from './pages/guest-orders/GuestOrderForm';
+
+import PaymentLinksList from './pages/payment-links/PaymentLinksList';
+
+import PromoCodesList from './pages/promo-codes/PromoCodesList';
+
+import ReviewsList from './pages/reviews/ReviewsList';
+
+import CmsPagesList from './pages/cms-pages/CmsPagesList';
+
+import CmsBannersList from './pages/cms-banners/CmsBannersList';
+
+import SettingsForm from './pages/settings/SettingsForm';
+
+import RolesList from './pages/roles/RolesList';
+
+import AdminsList from './pages/admins/AdminsList';
 
 export default function App() {
   return (
@@ -36,10 +49,45 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
             <Route path="/" element={<Dashboard />} />
+
             <Route path="/categories" element={<CategoriesList />} />
-            {PLACEHOLDER_ROUTES.map((r) => (
-              <Route key={r.path} path={r.path} element={<PlaceholderModule titleKey={r.key} />} />
-            ))}
+
+            <Route path="/subcategories" element={<SubcategoriesList />} />
+
+            <Route path="/products" element={<ProductsList />} />
+            <Route path="/products/new" element={<ProductForm />} />
+            <Route path="/products/:id/edit" element={<ProductForm />} />
+
+            <Route path="/brands" element={<BrandsList />} />
+
+            <Route path="/attributes" element={<AttributesList />} />
+            <Route path="/attributes/:attributeId/values" element={<AttributeValuesList />} />
+
+            <Route path="/stock" element={<StockList />} />
+
+            <Route path="/orders" element={<OrdersList />} />
+            <Route path="/orders/new" element={<OrderForm />} />
+            <Route path="/orders/:id/edit" element={<OrderForm />} />
+
+            <Route path="/guest-orders" element={<GuestOrdersList />} />
+            <Route path="/guest-orders/new" element={<GuestOrderForm />} />
+            <Route path="/guest-orders/:id/edit" element={<GuestOrderForm />} />
+
+            <Route path="/payment-links" element={<PaymentLinksList />} />
+
+            <Route path="/promo-codes" element={<PromoCodesList />} />
+
+            <Route path="/reviews" element={<ReviewsList />} />
+
+            <Route path="/cms-pages" element={<CmsPagesList />} />
+
+            <Route path="/cms-banners" element={<CmsBannersList />} />
+
+            <Route path="/settings" element={<SettingsForm />} />
+
+            <Route path="/roles" element={<RolesList />} />
+
+            <Route path="/admins" element={<AdminsList />} />
           </Route>
         </Route>
       </Routes>

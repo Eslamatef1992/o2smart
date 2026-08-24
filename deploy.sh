@@ -86,7 +86,11 @@ echo "==> Running DB migrations"
 DB_PASSWORD_FOR_MIGRATION="$(grep '^DB_PASSWORD=' .env | cut -d= -f2-)"
 for f in migrations/*.sql; do
   echo "   applying $f"
-  mysql -u o2smart_app -p"${DB_PASSWORD_FOR_MIGRATION}" o2smart < "$f"
+  # --default-character-set=utf8mb4 is required: without it the mysql CLI
+  # assumes the input is latin1 and silently mangles every hardcoded Arabic
+  # seed value (roles.name_ar, cms_pages.title_ar, settings store_name_ar,
+  # etc.) into mojibake on import, even though the table itself is utf8mb4.
+  mysql --default-character-set=utf8mb4 -u o2smart_app -p"${DB_PASSWORD_FOR_MIGRATION}" o2smart < "$f"
 done
 
 echo "==> Starting API with PM2"
