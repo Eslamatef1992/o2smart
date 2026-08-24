@@ -6,13 +6,8 @@ export default function LanguageSwitcher() {
   const next = i18n.language === 'ar' ? 'en' : 'ar';
 
   return (
-    <button
-      type="button"
-      className="btn-outline"
-      onClick={() => setLanguage(next)}
-      aria-label="Switch language"
-    >
-      {next === 'ar' ? 'عربي' : 'EN'}
+    <button type="button" className="lang-switch" onClick={() => setLanguage(next)} aria-label="Switch language">
+      🇰🇼 <span>{i18n.language === 'ar' ? 'AR' : 'EN'}</span>
     </button>
   );
 }

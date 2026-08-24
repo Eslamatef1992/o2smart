@@ -28,19 +28,43 @@ async function attachRelations(product) {
   return { ...product, images, variants };
 }
 
-async function findAll({ activeOnly = false, categoryId, brandId } = {}) {
+// sort: 'newest' | 'price_asc' | 'price_desc' | 'deals' | undefined (default:
+// sort_order/id, matching the admin list). 'deals' also implies dealsOnly.
+// limit: storefront sections (Top Deals, New Arrivals, Best Sellers) cap how
+// many cards they render — kept server-side so the payload stays small.
+const SORT_COLUMNS = {
+  newest: 'p.created_at DESC, p.id DESC',
+  price_asc: 'COALESCE(p.sale_price, p.price) ASC',
+  price_desc: 'COALESCE(p.sale_price, p.price) DESC',
+  deals: '((p.price - COALESCE(p.sale_price, p.price)) / p.price) DESC, p.id DESC',
+};
+
+async function findAll({ activeOnly = false, categoryId, brandId, search, dealsOnly = false, sort, limit } = {}) {
   const conditions = [];
   const params = {};
-  if (activeOnly) conditions.push('is_active = 1');
+  if (activeOnly) conditions.push('p.is_active = 1');
   if (categoryId) {
-    conditions.push('category_id = :categoryId');
+    conditions.push('p.category_id = :categoryId');
     params.categoryId = categoryId;
   }
   if (brandId) {
-    conditions.push('brand_id = :brandId');
+    conditions.push('p.brand_id = :brandId');
     params.brandId = brandId;
   }
+  if (dealsOnly || sort === 'deals') {
+    conditions.push('p.sale_price IS NOT NULL');
+  }
+  if (search) {
+    conditions.push('(p.name_en LIKE :search OR p.name_ar LIKE :search OR p.sku LIKE :search)');
+    params.search = `%${search}%`;
+  }
   const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+  const orderBy = SORT_COLUMNS[sort] || 'p.sort_order ASC, p.id DESC';
+  // limit is always coerced to a bounded integer below — never interpolated
+  // from a raw client string — so this is safe to inline (mysql2 named
+  // placeholders don't support parameterized LIMIT).
+  const safeLimit = limit ? Math.max(1, Math.min(100, Math.trunc(Number(limit)) || 0)) : null;
+  const limitClause = safeLimit ? `LIMIT ${safeLimit}` : '';
   const [rows] = await pool.query(
     `SELECT p.*, c.name_en AS category_name_en, b.name_en AS brand_name_en,
             (SELECT image_url FROM product_images WHERE product_id = p.id ORDER BY is_primary DESC, sort_order ASC, id ASC LIMIT 1) AS thumbnail_url
@@ -48,19 +72,75 @@ async function findAll({ activeOnly = false, categoryId, brandId } = {}) {
      LEFT JOIN categories c ON c.id = p.category_id
      LEFT JOIN brands b ON b.id = p.brand_id
      ${where}
-     ORDER BY p.sort_order ASC, p.id DESC`,
+     ORDER BY ${orderBy}
+     ${limitClause}`,
     params
   );
-  return rows;
+  return attachVariantSummaries(rows);
 }
 
+// Listing cards show the same Storage/Color quick-select controls as the
+// detail page, so the list endpoint needs a lightweight variant summary too
+// (id/sku/price/stock + attribute values) — fetched in one bulk query per
+// page of results rather than N+1 per-product queries.
+async function attachVariantSummaries(products) {
+  if (products.length === 0) return products;
+  const ids = products.map((p) => p.id);
+  const placeholders = ids.map((_, i) => `:id${i}`).join(', ');
+  const params = {};
+  ids.forEach((id, i) => { params[`id${i}`] = id; });
+
+  const [variants] = await pool.query(
+    `SELECT id, product_id, sku, price, sale_price, stock_quantity, is_active
+     FROM product_variants WHERE product_id IN (${placeholders}) ORDER BY id ASC`,
+    params
+  );
+  if (variants.length === 0) {
+    return products.map((p) => ({ ...p, variants: [] }));
+  }
+  const variantIds = variants.map((v) => v.id);
+  const vPlaceholders = variantIds.map((_, i) => `:vid${i}`).join(', ');
+  const vParams = {};
+  variantIds.forEach((id, i) => { vParams[`vid${i}`] = id; });
+  const [values] = await pool.query(
+    `SELECT pvv.variant_id, av.id, av.value_en, av.value_ar, av.hex_code, a.id AS attribute_id, a.name_en AS attribute_name_en, a.name_ar AS attribute_name_ar
+     FROM product_variant_values pvv
+     JOIN attribute_values av ON av.id = pvv.attribute_value_id
+     JOIN attributes a ON a.id = av.attribute_id
+     WHERE pvv.variant_id IN (${vPlaceholders})`,
+    vParams
+  );
+  const valuesByVariant = new Map();
+  for (const v of values) {
+    if (!valuesByVariant.has(v.variant_id)) valuesByVariant.set(v.variant_id, []);
+    valuesByVariant.get(v.variant_id).push(v);
+  }
+  const variantsByProduct = new Map();
+  for (const v of variants) {
+    if (!variantsByProduct.has(v.product_id)) variantsByProduct.set(v.product_id, []);
+    variantsByProduct.get(v.product_id).push({ ...v, attributeValues: valuesByVariant.get(v.id) || [] });
+  }
+  return products.map((p) => ({ ...p, variants: variantsByProduct.get(p.id) || [] }));
+}
+
+// Includes the same category/brand name + slug columns as findAll so the
+// storefront product-detail page can render a proper breadcrumb without a
+// second round-trip.
+const DETAIL_SELECT = `
+  SELECT p.*, c.name_en AS category_name_en, c.name_ar AS category_name_ar, c.slug AS category_slug,
+         b.name_en AS brand_name_en, b.name_ar AS brand_name_ar
+  FROM products p
+  LEFT JOIN categories c ON c.id = p.category_id
+  LEFT JOIN brands b ON b.id = p.brand_id
+`;
+
 async function findById(id) {
-  const [rows] = await pool.query('SELECT * FROM products WHERE id = :id', { id });
+  const [rows] = await pool.query(`${DETAIL_SELECT} WHERE p.id = :id`, { id });
   return attachRelations(rows[0] || null);
 }
 
 async function findBySlug(slug) {
-  const [rows] = await pool.query('SELECT * FROM products WHERE slug = :slug', { slug });
+  const [rows] = await pool.query(`${DETAIL_SELECT} WHERE p.slug = :slug`, { slug });
   return attachRelations(rows[0] || null);
 }
 

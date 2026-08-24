@@ -5,10 +5,19 @@ const { requireAdminAuth } = require('../../middleware/adminAuth');
 
 const router = express.Router();
 
-// Orders are admin-only for now (the storefront checkout that would create
-// these publicly doesn't exist yet — this module lets admins view whatever
-// orders exist and, in the meantime, manually record phone/in-person
-// orders).
+// Public: guest storefront checkout. Must be declared before the
+// requireAdminAuth gate below — every line item is re-priced server-side in
+// the controller, so nothing here trusts client-submitted prices.
+const checkoutValidation = [
+  body('customerName').trim().notEmpty().withMessage('customerName is required'),
+  body('customerPhone').trim().notEmpty().withMessage('customerPhone is required'),
+  body('shippingAddress').trim().notEmpty().withMessage('shippingAddress is required'),
+  body('items').isArray({ min: 1 }).withMessage('at least one item is required'),
+];
+router.post('/checkout', checkoutValidation, controller.checkout);
+
+// Everything below is admin-only: viewing all orders (registered + guest)
+// and manually recording phone/in-person orders.
 router.use(requireAdminAuth);
 
 const orderValidation = [

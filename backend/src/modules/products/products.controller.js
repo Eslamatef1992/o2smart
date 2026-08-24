@@ -4,11 +4,15 @@ const { ok, fail } = require('../../utils/apiResponse');
 
 async function list(req, res, next) {
   try {
-    const { activeOnly, categoryId, brandId } = req.query;
+    const { activeOnly, categoryId, brandId, search, deals, sort, limit } = req.query;
     const products = await Products.findAll({
       activeOnly: activeOnly === 'true',
       categoryId: categoryId || undefined,
       brandId: brandId || undefined,
+      search: search || undefined,
+      dealsOnly: deals === 'true',
+      sort: sort || undefined,
+      limit: limit || undefined,
     });
     return ok(res, products);
   } catch (err) {

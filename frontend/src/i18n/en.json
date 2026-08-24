@@ -1,4 +1,13 @@
 {
+  "brand": {
+    "name": "O2 Smart"
+  },
+  "ticker": {
+    "item1": "Free Delivery Across Kuwait",
+    "item2": "New Arrivals Every Week",
+    "item3": "Shop Top Brands",
+    "item4": "Cash On Delivery Available"
+  },
   "nav": {
     "search_placeholder": "Search...",
     "categories": "Categories",
@@ -9,35 +18,122 @@
     "cart": "Cart",
     "account": "Account",
     "login": "Login",
-    "my_account": "My Account"
+    "my_account": "My Account",
+    "view_all": "View All",
+    "home": "Home"
+  },
+  "search": {
+    "title": "Search Results",
+    "showing_for": "Showing {{count}} results for \"{{query}}\"",
+    "suggestions": "Suggestions",
+    "products": "Products",
+    "no_results": "No products matched your search.",
+    "search_within": "Search within results"
+  },
+  "filters": {
+    "filter": "Filter",
+    "showing_products": "Showing {{count}} Products",
+    "sort_by": "Sort by",
+    "sort_default": "Featured",
+    "sort_newest": "New Arrival",
+    "sort_deals": "Offers",
+    "sort_price_asc": "Low - High Price",
+    "sort_price_desc": "High - Low Price",
+    "category": "Category",
+    "brand": "Brands",
+    "price": "Price",
+    "in_stock": "In Stock",
+    "clear_all": "Clear All",
+    "apply": "Apply",
+    "min": "Min",
+    "max": "Max",
+    "no_products": "No products match these filters."
   },
   "product": {
     "add_to_cart": "Add To Cart",
     "buy_now": "Buy Now",
-    "out_of_stock": "Out of Stock",
+    "out_of_stock": "Out Of Stock",
+    "in_stock": "In Stock",
+    "low_stock": "Only {{count}} Left In Stock",
     "storage": "Storage",
     "color": "Color",
     "you_may_also_like": "You May Also Like",
-    "recently_viewed": "Recently Viewed Products"
+    "recently_viewed": "Recently Viewed Products",
+    "clear_history": "Clear History",
+    "sku": "Sku",
+    "more_details": "More Details For This Product",
+    "why_this_product": "Why This Product?",
+    "trust_warranty": "Backed by manufacturer warranty and after-sales support.",
+    "trust_delivery": "Fast, trackable delivery across Kuwait.",
+    "trust_returns": "Easy returns per our refund policy.",
+    "quantity": "Quantity",
+    "select_option": "Select {{name}}",
+    "not_found": "Product not found."
+  },
+  "cart": {
+    "title": "Your Cart",
+    "my_cart": "My Cart",
+    "empty": "Empty Cart",
+    "continue_shopping": "Continue Shopping",
+    "discount_code": "Discount Code",
+    "apply": "Apply",
+    "promo_coming_soon": "Promo codes are coming soon.",
+    "view_cart": "View Cart",
+    "checkout": "Checkout",
+    "you_will_love_this": "You Will Love This Too",
+    "remove": "Remove"
   },
   "checkout": {
+    "title": "Checkout",
     "delivery_address": "Delivery Address",
+    "region": "Region",
+    "address": "Address",
+    "postal_code": "Postal Code",
+    "city": "City",
+    "block": "Block",
+    "governorate": "Governorate",
+    "select_region": "Select Region",
+    "select_governorate": "Select Governorate",
     "shipping_method": "Shipping Method",
+    "shipping_method_placeholder": "Standard delivery, 1-3 business days across Kuwait.",
     "payment_method": "Payment Method",
     "knet": "KNET",
     "credit_card": "Credit Card",
-    "cash": "Cash on Delivery",
+    "online_coming_soon": "Online payment is coming soon — cash on delivery is available now.",
+    "cash": "Cash On Delivery",
     "pay": "Pay",
+    "placing_order": "Placing Order...",
     "order_summary": "My Order",
     "subtotal": "Subtotal",
     "discount": "Discount",
     "shipping_fees": "Shipping Fees",
+    "enter_address_for_shipping": "Enter Shipping Address",
+    "free": "Free",
+    "total": "Total",
+    "full_name": "Full Name",
+    "phone": "Phone",
+    "email": "Email (optional)",
+    "notes": "Order Notes (optional)"
+  },
+  "order_success": {
+    "title": "Payment Successful!",
+    "subtitle": "Your Order Has Been Successfully Placed & Is Being Prepared For Shipping.",
+    "order_id": "Order Id",
+    "no_of_items": "No Of Items",
+    "item": "Item",
+    "items": "Items",
+    "address": "Address",
+    "delivery_time": "Delivery Time",
+    "delivery_estimate": "1-3 Business Days",
+    "payment_method": "Payment Method",
     "total": "Total"
   },
   "auth": {
     "login_title": "Login",
     "login_subtitle": "Login Or Create Your Account.",
     "email": "Email",
+    "email_placeholder": "Enter Your Email",
+    "news_offers": "Email Me With News & Offers",
     "confirm": "Confirm",
     "continue_with_google": "Continue With Google",
     "otp_title": "OTP Code",
@@ -48,13 +144,28 @@
     "my_delivery_address": "My Delivery Address",
     "my_order": "My Order"
   },
+  "brands_page": {
+    "title": "Our Brands"
+  },
   "footer": {
-    "fast_links": "Fast Links",
+    "description": "O2 Smart is Kuwait's trusted online store for the latest smartphones, smart gadgets, and premium mobile accessories. Discover a wide selection of products from the world's leading brands.",
+    "fast_links": "Fast Link",
     "brands": "Brands",
     "about": "About",
-    "customer_care": "Customer Care"
+    "customer_care": "Customer Care",
+    "contact_us": "Contact Us",
+    "whatsapp": "Whatsapp",
+    "social_media": "Social Media",
+    "return_policy": "Return Policy",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "powered_by": "Powered By"
   },
   "common": {
-    "home": "Home"
+    "home": "Home",
+    "loading": "Loading...",
+    "error_generic": "Something went wrong. Please try again.",
+    "content_coming_soon": "Content coming soon.",
+    "kwd": "KWD"
   }
 }

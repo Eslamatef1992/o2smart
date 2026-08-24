@@ -1,4 +1,13 @@
 {
+  "brand": {
+    "name": "أو تو سمارت"
+  },
+  "ticker": {
+    "item1": "توصيل مجاني في جميع أنحاء الكويت",
+    "item2": "وصل حديثاً كل أسبوع",
+    "item3": "تسوق أفضل الماركات",
+    "item4": "الدفع عند الاستلام متاح"
+  },
   "nav": {
     "search_placeholder": "بحث...",
     "categories": "الفئات",
@@ -9,35 +18,122 @@
     "cart": "السلة",
     "account": "الحساب",
     "login": "تسجيل الدخول",
-    "my_account": "حسابي"
+    "my_account": "حسابي",
+    "view_all": "عرض الكل",
+    "home": "الرئيسية"
+  },
+  "search": {
+    "title": "نتائج البحث",
+    "showing_for": "عرض {{count}} نتيجة لـ \"{{query}}\"",
+    "suggestions": "اقتراحات",
+    "products": "المنتجات",
+    "no_results": "لم يتم العثور على منتجات مطابقة.",
+    "search_within": "البحث ضمن النتائج"
+  },
+  "filters": {
+    "filter": "تصفية",
+    "showing_products": "عرض {{count}} منتج",
+    "sort_by": "ترتيب حسب",
+    "sort_default": "مميز",
+    "sort_newest": "وصل حديثاً",
+    "sort_deals": "عروض",
+    "sort_price_asc": "السعر: من الأقل للأعلى",
+    "sort_price_desc": "السعر: من الأعلى للأقل",
+    "category": "الفئة",
+    "brand": "الماركة",
+    "price": "السعر",
+    "in_stock": "متوفر",
+    "clear_all": "مسح الكل",
+    "apply": "تطبيق",
+    "min": "الأدنى",
+    "max": "الأقصى",
+    "no_products": "لا توجد منتجات مطابقة لهذه الفلاتر."
   },
   "product": {
     "add_to_cart": "أضف إلى السلة",
     "buy_now": "اشتر الآن",
     "out_of_stock": "غير متوفر",
+    "in_stock": "متوفر",
+    "low_stock": "تبقى {{count}} فقط",
     "storage": "السعة التخزينية",
     "color": "اللون",
     "you_may_also_like": "قد يعجبك أيضاً",
-    "recently_viewed": "شوهد مؤخراً"
+    "recently_viewed": "شوهد مؤخراً",
+    "clear_history": "مسح السجل",
+    "sku": "رمز المنتج",
+    "more_details": "تفاصيل أكثر عن هذا المنتج",
+    "why_this_product": "لماذا هذا المنتج؟",
+    "trust_warranty": "مدعوم بضمان الشركة المصنعة وخدمة ما بعد البيع.",
+    "trust_delivery": "توصيل سريع وقابل للتتبع في جميع أنحاء الكويت.",
+    "trust_returns": "إرجاع سهل وفق سياسة الاسترجاع الخاصة بنا.",
+    "quantity": "الكمية",
+    "select_option": "اختر {{name}}",
+    "not_found": "المنتج غير موجود."
+  },
+  "cart": {
+    "title": "سلتك",
+    "my_cart": "سلة التسوق",
+    "empty": "السلة فارغة",
+    "continue_shopping": "متابعة التسوق",
+    "discount_code": "كود الخصم",
+    "apply": "تطبيق",
+    "promo_coming_soon": "أكواد الخصم قادمة قريباً.",
+    "view_cart": "عرض السلة",
+    "checkout": "إتمام الشراء",
+    "you_will_love_this": "قد يعجبك أيضاً",
+    "remove": "إزالة"
   },
   "checkout": {
+    "title": "إتمام الشراء",
     "delivery_address": "عنوان التوصيل",
+    "region": "المنطقة",
+    "address": "العنوان",
+    "postal_code": "الرمز البريدي",
+    "city": "المدينة",
+    "block": "القطعة",
+    "governorate": "المحافظة",
+    "select_region": "اختر المنطقة",
+    "select_governorate": "اختر المحافظة",
     "shipping_method": "طريقة الشحن",
+    "shipping_method_placeholder": "توصيل عادي، من 1 إلى 3 أيام عمل في جميع أنحاء الكويت.",
     "payment_method": "طريقة الدفع",
     "knet": "كي نت",
     "credit_card": "بطاقة ائتمان",
+    "online_coming_soon": "الدفع الإلكتروني قادم قريباً — الدفع عند الاستلام متاح الآن.",
     "cash": "الدفع عند الاستلام",
     "pay": "ادفع",
+    "placing_order": "جاري تنفيذ الطلب...",
     "order_summary": "طلبي",
     "subtotal": "المجموع الفرعي",
     "discount": "الخصم",
     "shipping_fees": "رسوم الشحن",
+    "enter_address_for_shipping": "أدخل عنوان الشحن",
+    "free": "مجاني",
+    "total": "الإجمالي",
+    "full_name": "الاسم الكامل",
+    "phone": "رقم الهاتف",
+    "email": "البريد الإلكتروني (اختياري)",
+    "notes": "ملاحظات الطلب (اختياري)"
+  },
+  "order_success": {
+    "title": "تم الدفع بنجاح!",
+    "subtitle": "تم تقديم طلبك بنجاح ويجري تجهيزه للشحن.",
+    "order_id": "رقم الطلب",
+    "no_of_items": "عدد المنتجات",
+    "item": "منتج",
+    "items": "منتجات",
+    "address": "العنوان",
+    "delivery_time": "وقت التوصيل",
+    "delivery_estimate": "من 1 إلى 3 أيام عمل",
+    "payment_method": "طريقة الدفع",
     "total": "الإجمالي"
   },
   "auth": {
     "login_title": "تسجيل الدخول",
     "login_subtitle": "سجل الدخول أو أنشئ حسابك.",
     "email": "البريد الإلكتروني",
+    "email_placeholder": "أدخل بريدك الإلكتروني",
+    "news_offers": "راسلني بالأخبار والعروض",
     "confirm": "تأكيد",
     "continue_with_google": "المتابعة باستخدام جوجل",
     "otp_title": "رمز التحقق",
@@ -48,13 +144,28 @@
     "my_delivery_address": "عنوان التوصيل الخاص بي",
     "my_order": "طلباتي"
   },
+  "brands_page": {
+    "title": "علاماتنا التجارية"
+  },
   "footer": {
+    "description": "أو تو سمارت هي المتجر الإلكتروني الموثوق في الكويت لأحدث الهواتف الذكية والأجهزة الذكية وإكسسوارات الجوال المميزة. اكتشف مجموعة واسعة من المنتجات من أفضل العلامات التجارية العالمية.",
     "fast_links": "روابط سريعة",
     "brands": "العلامات التجارية",
     "about": "من نحن",
-    "customer_care": "خدمة العملاء"
+    "customer_care": "خدمة العملاء",
+    "contact_us": "اتصل بنا",
+    "whatsapp": "واتساب",
+    "social_media": "وسائل التواصل",
+    "return_policy": "سياسة الاسترجاع",
+    "terms": "الشروط والأحكام",
+    "privacy": "سياسة الخصوصية",
+    "powered_by": "بدعم من"
   },
   "common": {
-    "home": "الرئيسية"
+    "home": "الرئيسية",
+    "loading": "جارِ التحميل...",
+    "error_generic": "حدث خطأ ما. حاول مرة أخرى.",
+    "content_coming_soon": "المحتوى قادم قريباً.",
+    "kwd": "د.ك"
   }
 }

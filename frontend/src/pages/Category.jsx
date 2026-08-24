@@ -1,19 +1,32 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import apiClient from '../api/client';
+import ProductListing from './ProductListing';
 
-// Category/search-results page: filter sidebar (Product Type, Price,
-// Storage, Color, Brand) + product grid, per build-spec.md §5.
 export default function Category() {
+  const { t, i18n } = useTranslation();
   const { slug } = useParams();
+  const [category, setCategory] = useState(undefined); // undefined = loading, null = not found
+
+  useEffect(() => {
+    setCategory(undefined);
+    apiClient
+      .get('/categories')
+      .then((res) => setCategory(res.data.data.find((c) => c.slug === slug) || null))
+      .catch(() => setCategory(null));
+  }, [slug]);
+
+  if (category === undefined) return <p style={{ color: 'var(--color-text-muted)' }}>{t('common.loading')}</p>;
+  if (category === null) return <p style={{ color: 'var(--color-text-muted)' }}>{t('product.not_found')}</p>;
+
+  const name = i18n.language === 'ar' ? category.name_ar : category.name_en;
+
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 'var(--space-4)' }}>
-      <aside className="card">
-        <h3>Filters</h3>
-        <p style={{ color: 'var(--color-text-muted)' }}>Product Type, Price, Storage, Color, Brand — TODO once products/attributes exist.</p>
-      </aside>
-      <section>
-        <h1>{slug}</h1>
-        <p style={{ color: 'var(--color-text-muted)' }}>Product grid goes here.</p>
-      </section>
-    </div>
+    <ProductListing
+      title={name}
+      breadcrumb={[{ label: t('common.home'), to: '/' }, { label: name }]}
+      fetchParams={{ categoryId: category.id }}
+    />
   );
 }
