@@ -1,0 +1,8 @@
+{
+  "server_error": "حدث خطأ ما. حاول مرة أخرى.",
+  "not_found": "لم يتم العثور على المورد.",
+  "category_created": "تم إنشاء الفئة.",
+  "category_updated": "تم تحديث الفئة.",
+  "category_deleted": "تم حذف الفئة.",
+  "validation_error": "يرجى التحقق من البيانات المرسلة."
+}

@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "search_placeholder": "Search...",
+    "categories": "Categories",
+    "our_brands": "Our Brands",
+    "new_arrivals": "New Arrivals",
+    "best_seller": "Best Seller",
+    "top_deals": "Our Top Deals",
+    "cart": "Cart",
+    "account": "Account",
+    "login": "Login",
+    "my_account": "My Account"
+  },
+  "product": {
+    "add_to_cart": "Add To Cart",
+    "buy_now": "Buy Now",
+    "out_of_stock": "Out of Stock",
+    "storage": "Storage",
+    "color": "Color",
+    "you_may_also_like": "You May Also Like",
+    "recently_viewed": "Recently Viewed Products"
+  },
+  "checkout": {
+    "delivery_address": "Delivery Address",
+    "shipping_method": "Shipping Method",
+    "payment_method": "Payment Method",
+    "knet": "KNET",
+    "credit_card": "Credit Card",
+    "cash": "Cash on Delivery",
+    "pay": "Pay",
+    "order_summary": "My Order",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping_fees": "Shipping Fees",
+    "total": "Total"
+  },
+  "auth": {
+    "login_title": "Login",
+    "login_subtitle": "Login Or Create Your Account.",
+    "email": "Email",
+    "confirm": "Confirm",
+    "continue_with_google": "Continue With Google",
+    "otp_title": "OTP Code",
+    "otp_subtitle": "Enter The Code Sent To This Email Address"
+  },
+  "account": {
+    "my_information": "My Information",
+    "my_delivery_address": "My Delivery Address",
+    "my_order": "My Order"
+  },
+  "footer": {
+    "fast_links": "Fast Links",
+    "brands": "Brands",
+    "about": "About",
+    "customer_care": "Customer Care"
+  },
+  "common": {
+    "home": "Home"
+  }
+}

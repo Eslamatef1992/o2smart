@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "search_placeholder": "بحث...",
+    "categories": "الفئات",
+    "our_brands": "علاماتنا التجارية",
+    "new_arrivals": "وصل حديثاً",
+    "best_seller": "الأكثر مبيعاً",
+    "top_deals": "أفضل العروض",
+    "cart": "السلة",
+    "account": "الحساب",
+    "login": "تسجيل الدخول",
+    "my_account": "حسابي"
+  },
+  "product": {
+    "add_to_cart": "أضف إلى السلة",
+    "buy_now": "اشتر الآن",
+    "out_of_stock": "غير متوفر",
+    "storage": "السعة التخزينية",
+    "color": "اللون",
+    "you_may_also_like": "قد يعجبك أيضاً",
+    "recently_viewed": "شوهد مؤخراً"
+  },
+  "checkout": {
+    "delivery_address": "عنوان التوصيل",
+    "shipping_method": "طريقة الشحن",
+    "payment_method": "طريقة الدفع",
+    "knet": "كي نت",
+    "credit_card": "بطاقة ائتمان",
+    "cash": "الدفع عند الاستلام",
+    "pay": "ادفع",
+    "order_summary": "طلبي",
+    "subtotal": "المجموع الفرعي",
+    "discount": "الخصم",
+    "shipping_fees": "رسوم الشحن",
+    "total": "الإجمالي"
+  },
+  "auth": {
+    "login_title": "تسجيل الدخول",
+    "login_subtitle": "سجل الدخول أو أنشئ حسابك.",
+    "email": "البريد الإلكتروني",
+    "confirm": "تأكيد",
+    "continue_with_google": "المتابعة باستخدام جوجل",
+    "otp_title": "رمز التحقق",
+    "otp_subtitle": "أدخل الرمز المرسل إلى هذا البريد الإلكتروني"
+  },
+  "account": {
+    "my_information": "معلوماتي",
+    "my_delivery_address": "عنوان التوصيل الخاص بي",
+    "my_order": "طلباتي"
+  },
+  "footer": {
+    "fast_links": "روابط سريعة",
+    "brands": "العلامات التجارية",
+    "about": "من نحن",
+    "customer_care": "خدمة العملاء"
+  },
+  "common": {
+    "home": "الرئيسية"
+  }
+}

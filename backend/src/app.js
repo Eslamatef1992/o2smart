@@ -1,0 +1,35 @@
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+
+const env = require('./config/env');
+const { i18nMiddleware } = require('./middleware/i18n');
+const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
+
+const healthRoutes = require('./modules/health/health.routes');
+const categoriesRoutes = require('./modules/categories/categories.routes');
+// As each module gets built, mount it here the same way, e.g.:
+// const productsRoutes = require('./modules/products/products.routes');
+
+const app = express();
+
+app.use(helmet());
+app.use(cors({ origin: env.corsOrigin, credentials: true }));
+app.use(express.json());
+app.use(cookieParser());
+app.use(morgan(env.nodeEnv === 'development' ? 'dev' : 'combined'));
+app.use(i18nMiddleware);
+
+app.use('/health', healthRoutes);
+app.use('/categories', categoriesRoutes);
+// app.use('/products', productsRoutes);
+// app.use('/brands', brandsRoutes);
+// app.use('/orders', ordersRoutes);
+// ...one line per module, following the categories module's pattern.
+
+app.use(notFoundHandler);
+app.use(errorHandler);
+
+module.exports = app;
