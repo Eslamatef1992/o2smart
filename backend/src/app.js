@@ -16,7 +16,20 @@ const categoriesRoutes = require('./modules/categories/categories.routes');
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: env.corsOrigin, credentials: true }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allow no-origin requests (curl, server-to-server, health checks) and
+      // any origin explicitly listed in CORS_ORIGIN.
+      if (!origin || env.corsOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan(env.nodeEnv === 'development' ? 'dev' : 'combined'));

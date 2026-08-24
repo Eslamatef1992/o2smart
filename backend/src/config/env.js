@@ -13,7 +13,11 @@ function required(name, fallback = undefined) {
 module.exports = {
   port: Number(process.env.PORT || 4000),
   nodeEnv: process.env.NODE_ENV || 'development',
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  // Comma-separated list, e.g. "https://www.o2smart.online,https://o2smart.online,https://admin.o2smart.online"
+  corsOrigins: (process.env.CORS_ORIGIN || 'http://localhost:5173')
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean),
 
   db: {
     host: required('DB_HOST', '127.0.0.1'),

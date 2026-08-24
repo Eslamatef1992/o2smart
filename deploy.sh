@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-# O2 Smart — deploy step (run as root on the VPS, after o2smart_src is in place)
+# O2 Smart — deploy step (run as root on the VPS, after o2smart_src is up to date)
+#
+# Safe to re-run any time you `git pull` new code: it only WRITES .env files
+# the first time (when they don't exist yet). After that, .env is yours to
+# edit by hand on the server — this script will never overwrite it again.
 set -euo pipefail
 
 SRC="/root/o2smart_src"
@@ -7,25 +11,24 @@ APP_DIR="/var/www/o2smart"
 CREDS="/root/o2smart_credentials.txt"
 
 if [[ ! -d "$SRC/backend" || ! -d "$SRC/frontend" ]]; then
-  echo "ERROR: $SRC/backend or $SRC/frontend not found. Did the scp finish?" >&2
+  echo "ERROR: $SRC/backend or $SRC/frontend not found. Did the git clone/pull finish?" >&2
   exit 1
 fi
 
-echo "==> Copying code into $APP_DIR"
-mkdir -p "$APP_DIR"
-cp -r "$SRC/backend" "$APP_DIR/"
-cp -r "$SRC/frontend" "$APP_DIR/"
+echo "==> Syncing code into $APP_DIR (preserving .env files)"
+mkdir -p "$APP_DIR/backend" "$APP_DIR/frontend"
+rsync -a --delete --exclude '.env' --exclude 'node_modules' --exclude 'dist' "$SRC/backend/" "$APP_DIR/backend/"
+rsync -a --delete --exclude '.env' --exclude 'node_modules' --exclude 'dist' "$SRC/frontend/" "$APP_DIR/frontend/"
 
-echo "==> Reading DB credentials from $CREDS"
-DB_PASSWORD="$(grep '^MySQL password' "$CREDS" | sed 's/.*: *//')"
-if [[ -z "$DB_PASSWORD" ]]; then
-  echo "ERROR: could not read MySQL password from $CREDS" >&2
-  exit 1
-fi
-JWT_SECRET="$(openssl rand -hex 32)"
-
-echo "==> Writing backend/.env"
-cat > "$APP_DIR/backend/.env" <<ENV
+if [[ ! -f "$APP_DIR/backend/.env" ]]; then
+  echo "==> First run: writing backend/.env from $CREDS"
+  if [[ ! -f "$CREDS" ]]; then
+    echo "ERROR: $CREDS not found and no existing backend/.env to fall back on." >&2
+    exit 1
+  fi
+  DB_PASSWORD="$(grep '^MySQL password' "$CREDS" | sed 's/.*: *//')"
+  JWT_SECRET="$(openssl rand -hex 32)"
+  cat > "$APP_DIR/backend/.env" <<ENV
 PORT=4000
 NODE_ENV=production
 DB_HOST=127.0.0.1
@@ -39,27 +42,38 @@ SMTP_HOST=
 SMTP_PORT=587
 SMTP_USER=
 SMTP_PASSWORD=
-SMTP_FROM="O2 Smart <no-reply@o2smart.example>"
+SMTP_FROM="O2 Smart <no-reply@o2smart.online>"
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 SADAD_BASE_URL=
 SADAD_API_KEY=
 SADAD_API_SECRET=
 SADAD_WEBHOOK_SECRET=
-CORS_ORIGIN=http://72.61.180.249
+CORS_ORIGIN=https://www.o2smart.online,https://o2smart.online,https://admin.o2smart.online
 ENV
+else
+  echo "==> backend/.env already exists — leaving it untouched"
+fi
 
-echo "==> Writing frontend/.env"
-cat > "$APP_DIR/frontend/.env" <<ENV
-VITE_API_BASE_URL=/api
+if [[ ! -f "$APP_DIR/frontend/.env" ]]; then
+  echo "==> First run: writing frontend/.env"
+  cat > "$APP_DIR/frontend/.env" <<ENV
+VITE_API_BASE_URL=https://back.o2smart.online
 ENV
+else
+  echo "==> frontend/.env already exists — leaving it untouched"
+fi
 
 echo "==> Installing backend deps"
 cd "$APP_DIR/backend"
 npm ci --omit=dev
 
-echo "==> Running DB migration"
-mysql -u o2smart_app -p"${DB_PASSWORD}" o2smart < migrations/001_create_categories.sql
+echo "==> Running DB migrations"
+DB_PASSWORD_FOR_MIGRATION="$(grep '^DB_PASSWORD=' .env | cut -d= -f2-)"
+for f in migrations/*.sql; do
+  echo "   applying $f"
+  mysql -u o2smart_app -p"${DB_PASSWORD_FOR_MIGRATION}" o2smart < "$f"
+done
 
 echo "==> Starting API with PM2"
 pm2 delete o2smart-api >/dev/null 2>&1 || true
@@ -74,10 +88,9 @@ npm run build
 echo "==> Setting ownership"
 chown -R deploy:deploy "$APP_DIR"
 
-echo "==> Done. Testing endpoints:"
+echo "==> Done. Testing local API:"
 sleep 2
 curl -s http://127.0.0.1:4000/health || echo "(local API check failed)"
 echo
-curl -s http://127.0.0.1/api/health || echo "(nginx proxy check failed)"
-echo
-echo "Visit http://72.61.180.249/ in your browser to see the site."
+echo "If domains are set up (see setup_domains.sh), check:"
+echo "  https://www.o2smart.online/  https://back.o2smart.online/health  https://admin.o2smart.online/"
