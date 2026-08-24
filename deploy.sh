@@ -20,6 +20,11 @@ mkdir -p "$APP_DIR/backend" "$APP_DIR/frontend"
 rsync -a --delete --exclude '.env' --exclude 'node_modules' --exclude 'dist' "$SRC/backend/" "$APP_DIR/backend/"
 rsync -a --delete --exclude '.env' --exclude 'node_modules' --exclude 'dist' "$SRC/frontend/" "$APP_DIR/frontend/"
 
+if [[ -d "$SRC/admin" ]]; then
+  mkdir -p "$APP_DIR/admin"
+  rsync -a --delete --exclude '.env' --exclude 'node_modules' --exclude 'dist' "$SRC/admin/" "$APP_DIR/admin/"
+fi
+
 if [[ ! -f "$APP_DIR/backend/.env" ]]; then
   echo "==> First run: writing backend/.env from $CREDS"
   if [[ ! -f "$CREDS" ]]; then
@@ -64,6 +69,15 @@ else
   echo "==> frontend/.env already exists — leaving it untouched"
 fi
 
+if [[ -d "$APP_DIR/admin" && ! -f "$APP_DIR/admin/.env" ]]; then
+  echo "==> First run: writing admin/.env"
+  cat > "$APP_DIR/admin/.env" <<ENV
+VITE_API_BASE_URL=https://back.o2smart.online
+ENV
+elif [[ -d "$APP_DIR/admin" ]]; then
+  echo "==> admin/.env already exists — leaving it untouched"
+fi
+
 echo "==> Installing backend deps"
 cd "$APP_DIR/backend"
 npm ci --omit=dev
@@ -84,6 +98,13 @@ echo "==> Building frontend"
 cd "$APP_DIR/frontend"
 npm ci
 npm run build
+
+if [[ -d "$APP_DIR/admin" ]]; then
+  echo "==> Building admin panel"
+  cd "$APP_DIR/admin"
+  npm ci
+  npm run build
+fi
 
 echo "==> Setting ownership"
 chown -R deploy:deploy "$APP_DIR"

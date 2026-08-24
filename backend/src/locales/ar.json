@@ -4,5 +4,8 @@
   "category_created": "تم إنشاء الفئة.",
   "category_updated": "تم تحديث الفئة.",
   "category_deleted": "تم حذف الفئة.",
-  "validation_error": "يرجى التحقق من البيانات المرسلة."
+  "validation_error": "يرجى التحقق من البيانات المرسلة.",
+  "unauthorized": "يرجى تسجيل الدخول للمتابعة.",
+  "forbidden": "ليس لديك صلاحية للقيام بذلك.",
+  "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة."
 }

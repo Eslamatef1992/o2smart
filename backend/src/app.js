@@ -10,6 +10,9 @@ const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
 
 const healthRoutes = require('./modules/health/health.routes');
 const categoriesRoutes = require('./modules/categories/categories.routes');
+const authRoutes = require('./modules/auth/auth.routes');
+const adminsRoutes = require('./modules/admins/admins.routes');
+const rolesRoutes = require('./modules/roles/roles.routes');
 // As each module gets built, mount it here the same way, e.g.:
 // const productsRoutes = require('./modules/products/products.routes');
 
@@ -37,6 +40,9 @@ app.use(i18nMiddleware);
 
 app.use('/health', healthRoutes);
 app.use('/categories', categoriesRoutes);
+app.use('/auth', authRoutes);
+app.use('/admins', adminsRoutes);
+app.use('/roles', rolesRoutes);
 // app.use('/products', productsRoutes);
 // app.use('/brands', brandsRoutes);
 // app.use('/orders', ordersRoutes);
