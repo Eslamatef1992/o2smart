@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import apiClient from '../../api/client';
@@ -36,6 +36,11 @@ export default function ProductForm() {
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+
+  const imageFileInputRef = useRef(null);
+  const [uploadTarget, setUploadTarget] = useState(null); // null | 'new' | row index
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageError, setImageError] = useState('');
 
   useEffect(() => {
     apiClient.get('/categories').then(({ data }) => setCategories(data.data)).catch(() => setCategories([]));
@@ -112,14 +117,45 @@ export default function ProductForm() {
     setForm((f) => ({ ...f, [field]: value }));
   }
 
-  function addImage() {
-    setImages((imgs) => [...imgs, { imageUrl: '' }]);
-  }
   function updateImage(index, value) {
     setImages((imgs) => imgs.map((img, i) => (i === index ? { imageUrl: value } : img)));
   }
   function removeImage(index) {
     setImages((imgs) => imgs.filter((_, i) => i !== index));
+  }
+
+  // Gallery upload: one hidden file input shared by "+ Add Image" (target
+  // 'new', appends a row) and each row's "Replace" button (target = that
+  // row's index, overwrites just that row's URL).
+  function triggerImageUpload(target) {
+    setImageError('');
+    setUploadTarget(target);
+    imageFileInputRef.current?.click();
+  }
+
+  async function handleImageFileChange(e) {
+    const file = e.target.files?.[0];
+    const target = uploadTarget;
+    if (!file || target === null) return;
+    setImageError('');
+    setImageUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const { data } = await apiClient.post('/uploads', formData);
+      const url = data.data.url;
+      if (target === 'new') {
+        setImages((imgs) => [...imgs, { imageUrl: url }]);
+      } else {
+        updateImage(target, url);
+      }
+    } catch (err) {
+      setImageError(err.response?.data?.message || 'Upload failed. Please try again.');
+    } finally {
+      setImageUploading(false);
+      setUploadTarget(null);
+      e.target.value = '';
+    }
   }
 
   function addVariant() {
@@ -296,25 +332,64 @@ export default function ProductForm() {
         <div className="card" style={{ marginBottom: 'var(--space-3)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Images</h2>
-            <button type="button" className="btn btn-outline btn-sm" onClick={addImage}>
-              + Add Image
+            <button
+              type="button"
+              className="btn btn-outline btn-sm"
+              onClick={() => triggerImageUpload('new')}
+              disabled={imageUploading}
+            >
+              {imageUploading && uploadTarget === 'new' ? 'Uploading…' : '+ Add Image'}
             </button>
           </div>
           {images.length === 0 && <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>No images yet.</p>}
           {images.map((img, i) => (
             <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
-              <input
-                style={{ flex: 1, padding: '9px 12px', border: '1px solid var(--color-border)', borderRadius: 8 }}
-                placeholder="Image URL"
-                value={img.imageUrl}
-                onChange={(e) => updateImage(i, e.target.value)}
-              />
-              {img.imageUrl && <img src={img.imageUrl} alt="" style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 4 }} />}
+              {img.imageUrl ? (
+                <img src={img.imageUrl} alt="" style={{ width: 44, height: 44, objectFit: 'cover', borderRadius: 6, flexShrink: 0 }} />
+              ) : (
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 6,
+                    border: '1px dashed var(--color-border)',
+                    flexShrink: 0,
+                  }}
+                />
+              )}
+              <span
+                style={{
+                  flex: 1,
+                  fontSize: '0.8rem',
+                  color: 'var(--color-text-muted)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {img.imageUrl || 'No image'}
+              </span>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={() => triggerImageUpload(i)}
+                disabled={imageUploading}
+              >
+                {imageUploading && uploadTarget === i ? 'Uploading…' : img.imageUrl ? 'Replace' : 'Upload'}
+              </button>
               <button type="button" className="btn btn-danger btn-sm" onClick={() => removeImage(i)}>
                 Remove
               </button>
             </div>
           ))}
+          {imageError && <p className="form-error">{imageError}</p>}
+          <input
+            ref={imageFileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+            onChange={handleImageFileChange}
+            style={{ display: 'none' }}
+          />
         </div>
 
         <div className="card" style={{ marginBottom: 'var(--space-3)' }}>

@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -26,8 +27,14 @@ const reviewsRoutes = require('./modules/reviews/reviews.routes');
 const cmsPagesRoutes = require('./modules/cmsPages/cmsPages.routes');
 const cmsBannersRoutes = require('./modules/cmsBanners/cmsBanners.routes');
 const settingsRoutes = require('./modules/settings/settings.routes');
+const uploadsRoutes = require('./modules/uploads/uploads.routes');
 
 const app = express();
+
+// Behind Nginx (see setup_domains.sh — proxy_set_header X-Forwarded-Proto
+// $scheme) — without this, req.protocol always reads "http" and every
+// uploaded-file URL the API generates would be wrong on the live site.
+app.set('trust proxy', 1);
 
 app.use(helmet());
 app.use(
@@ -67,6 +74,21 @@ app.use('/reviews', reviewsRoutes);
 app.use('/cms-pages', cmsPagesRoutes);
 app.use('/cms-banners', cmsBannersRoutes);
 app.use('/settings', settingsRoutes);
+app.use('/uploads', uploadsRoutes);
+
+// Serves the uploaded files themselves at GET /uploads/<filename>. Relaxes
+// helmet's default same-origin Cross-Origin-Resource-Policy just for these
+// static files — the admin panel (admin.o2smart.online) and storefront
+// (www.o2smart.online) both need to <img>-load images hosted here on
+// back.o2smart.online, which is a different origin from either of them.
+app.use(
+  '/uploads',
+  (req, res, next) => {
+    res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+  },
+  express.static(path.join(__dirname, '../public/uploads'))
+);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import apiClient from '../../api/client';
+import ImageUploadField from '../../components/ImageUploadField';
 
 const EMPTY = { categoryId: '', nameEn: '', nameAr: '', slug: '', imageUrl: '', sortOrder: 0, isActive: true };
 
@@ -65,10 +66,7 @@ export default function SubcategoryForm({ initial, onCancel, onSubmit }) {
             <label>{t('common.slug')}</label>
             <input value={form.slug} onChange={(e) => set('slug', e.target.value)} required />
           </div>
-          <div className="form-field">
-            <label>Image URL</label>
-            <input value={form.imageUrl || ''} onChange={(e) => set('imageUrl', e.target.value)} />
-          </div>
+          <ImageUploadField label="Image" value={form.imageUrl} onChange={(url) => set('imageUrl', url)} />
           <div className="form-field">
             <label>Sort Order</label>
             <input

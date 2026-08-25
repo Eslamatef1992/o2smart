@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ImageUploadField from '../../components/ImageUploadField';
 
 const EMPTY = { nameEn: '', nameAr: '', slug: '', logoUrl: '', sortOrder: 0, isActive: true };
 
@@ -43,10 +44,7 @@ export default function BrandForm({ initial, onCancel, onSubmit }) {
             <label>{t('common.slug')}</label>
             <input value={form.slug} onChange={(e) => set('slug', e.target.value)} required />
           </div>
-          <div className="form-field">
-            <label>Logo URL</label>
-            <input value={form.logoUrl || ''} onChange={(e) => set('logoUrl', e.target.value)} />
-          </div>
+          <ImageUploadField label="Logo" value={form.logoUrl} onChange={(url) => set('logoUrl', url)} />
           <div className="form-field">
             <label>Sort Order</label>
             <input

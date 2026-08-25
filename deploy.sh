@@ -15,9 +15,13 @@ if [[ ! -d "$SRC/backend" || ! -d "$SRC/frontend" ]]; then
   exit 1
 fi
 
-echo "==> Syncing code into $APP_DIR (preserving .env files)"
-mkdir -p "$APP_DIR/backend" "$APP_DIR/frontend"
-rsync -a --delete --exclude '.env' --exclude 'node_modules' --exclude 'dist' "$SRC/backend/" "$APP_DIR/backend/"
+echo "==> Syncing code into $APP_DIR (preserving .env files and uploaded images)"
+mkdir -p "$APP_DIR/backend" "$APP_DIR/frontend" "$APP_DIR/backend/public/uploads"
+# --exclude 'public/uploads' is required: admin-uploaded images (category
+# photos, brand logos, product galleries, CMS banners) live only on the
+# server, not in git — without this exclude, --delete would wipe every
+# uploaded file on every single deploy.
+rsync -a --delete --exclude '.env' --exclude 'node_modules' --exclude 'dist' --exclude 'public/uploads' "$SRC/backend/" "$APP_DIR/backend/"
 rsync -a --delete --exclude '.env' --exclude 'node_modules' --exclude 'dist' "$SRC/frontend/" "$APP_DIR/frontend/"
 
 if [[ -d "$SRC/admin" ]]; then

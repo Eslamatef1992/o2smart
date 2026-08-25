@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ImageUploadField from '../../components/ImageUploadField';
 
 const EMPTY = {
   titleEn: '',
@@ -70,10 +71,7 @@ export default function CmsBannerForm({ initial, onCancel, onSubmit }) {
             <label>Title (Arabic)</label>
             <input value={form.titleAr || ''} onChange={(e) => set('titleAr', e.target.value)} dir="rtl" />
           </div>
-          <div className="form-field">
-            <label>Image URL</label>
-            <input value={form.imageUrl || ''} onChange={(e) => set('imageUrl', e.target.value)} required />
-          </div>
+          <ImageUploadField label="Image" value={form.imageUrl} onChange={(url) => set('imageUrl', url)} required />
           <div className="form-field">
             <label>Link URL</label>
             <input value={form.linkUrl || ''} onChange={(e) => set('linkUrl', e.target.value)} />
