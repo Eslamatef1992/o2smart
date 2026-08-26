@@ -29,7 +29,10 @@ export default function Sidebar() {
 
   return (
     <aside className="admin-sidebar">
-      <div className="admin-sidebar__brand">{t('app_name')}</div>
+      <div className="admin-sidebar__brand">
+        <img src="/logo.png" alt="" style={{ height: 32, filter: 'invert(1)' }} />
+        {t('app_name')}
+      </div>
       <nav className="admin-sidebar__nav">
         {MODULES.map((m) => (
           <NavLink

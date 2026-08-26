@@ -78,7 +78,7 @@ export default function Home() {
         </section>
       )}
 
-      <ProductRail titleKey="nav.top_deals" products={deals} />
+      <ProductRail titleKey="nav.top_deals" products={deals} badgeKey="nav.limited_time" viewAllTo="/search?deals=true" />
 
       {brands.length > 0 && (
         <section className="section">
@@ -87,7 +87,7 @@ export default function Home() {
             <Link to="/brands" className="view-all">{t('nav.view_all')}</Link>
           </div>
           <div className="brand-grid">
-            {brands.slice(0, 5).map((b) => (
+            {brands.slice(0, 4).map((b) => (
               <Link to={`/brand/${b.slug}`} className="brand-tile" key={b.id}>
                 {b.logo_url && <img className="brand-bg" src={b.logo_url} alt="" />}
                 <span className="brand-logo">{i18n.language === 'ar' ? b.name_ar : b.name_en}</span>
@@ -97,13 +97,13 @@ export default function Home() {
         </section>
       )}
 
-      <ProductRail titleKey="nav.new_arrivals" products={newArrivals} />
-      <ProductRail titleKey="nav.best_seller" products={bestSellers} />
+      <ProductRail titleKey="nav.new_arrivals" products={newArrivals} viewAllTo="/search?sort=newest" />
+      <ProductRail titleKey="nav.best_seller" products={bestSellers} viewAllTo="/search" />
     </div>
   );
 }
 
-function ProductRail({ titleKey, products }) {
+function ProductRail({ titleKey, products, badgeKey, viewAllTo }) {
   const { t } = useTranslation();
   if (products === null) {
     return (
@@ -118,7 +118,16 @@ function ProductRail({ titleKey, products }) {
   return (
     <section className="section">
       <div className="section-title">
-        <h2>{t(titleKey)}</h2>
+        <h2>
+          {badgeKey && (
+            <span className="section-title__badge">
+              <span className="section-title__dot" />
+              {t(badgeKey)}
+            </span>
+          )}
+          {t(titleKey)}
+        </h2>
+        {viewAllTo && <Link to={viewAllTo} className="view-all">{t('nav.view_all')}</Link>}
       </div>
       <div className="product-grid">
         {products.map((p) => (

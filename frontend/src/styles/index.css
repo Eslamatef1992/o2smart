@@ -97,6 +97,28 @@ ul {
   white-space: nowrap;
 }
 
+.section-title__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--accent-red, #e5484d);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-inline-end: 10px;
+  vertical-align: middle;
+}
+
+.section-title__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
 /* ---------- buttons ---------- */
 
 .btn {
@@ -340,8 +362,8 @@ ul {
 
 .site-header__logo img,
 .site-header__logo svg {
-  height: 40px;
-  width: 40px;
+  height: 52px;
+  width: auto;
 }
 
 .site-header__search {
@@ -542,17 +564,27 @@ ul {
 
 /* ---------- brand grid ---------- */
 
+/* 3-column "bento" layout: the first two brands are tall single cards
+   (one per column, spanning both rows); the third column stacks the
+   remaining two brands on top of each other — matches the reference
+   home-page design exactly. */
 .brand-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: var(--space-3);
+  aspect-ratio: 2.15 / 1;
+}
+
+.brand-grid .brand-tile:nth-child(1),
+.brand-grid .brand-tile:nth-child(2) {
+  grid-row: span 2;
 }
 
 .brand-tile {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  aspect-ratio: 4 / 3;
   background: var(--mine-900);
   display: flex;
   align-items: flex-end;
@@ -905,7 +937,16 @@ ul {
 @media (max-width: 720px) {
   .product-grid { grid-template-columns: repeat(2, 1fr); }
   .category-grid { grid-template-columns: repeat(2, 1fr); }
-  .brand-grid { grid-template-columns: repeat(2, 1fr); }
+  .brand-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+    aspect-ratio: auto;
+  }
+  .brand-grid .brand-tile:nth-child(1),
+  .brand-grid .brand-tile:nth-child(2) {
+    grid-row: auto;
+  }
+  .brand-grid .brand-tile { aspect-ratio: 4 / 3; }
   .site-header__bar { flex-wrap: wrap; }
   .site-header__search { order: 3; flex-basis: 100%; }
   .search-overlay__grid { grid-template-columns: 1fr; }

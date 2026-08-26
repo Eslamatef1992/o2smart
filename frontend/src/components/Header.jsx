@@ -12,17 +12,7 @@ const TICKER_KEYS = ['ticker.item1', 'ticker.item2', 'ticker.item3', 'ticker.ite
 function Logo() {
   return (
     <Link to="/" className="site-header__logo" aria-label="O2 Smart home">
-      <svg viewBox="0 0 100 100" width="40" height="40">
-        <rect width="100" height="100" rx="20" fill="#090909" />
-        <text x="50" y="68" fontSize="58" fontFamily="sans-serif" fontWeight="700" fill="#ffffff" textAnchor="middle">
-          O2
-        </text>
-      </svg>
-      <span style={{ fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.1 }}>
-        O2
-        <br />
-        Smart
-      </span>
+      <img src="/logo.png" alt="O2 Smart" />
     </Link>
   );
 }

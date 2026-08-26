@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import visaIcon from '../assets/payments/visa.svg';
+import mastercardIcon from '../assets/payments/mastercard.svg';
+import knetIcon from '../assets/payments/knet.svg';
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -16,13 +19,7 @@ export default function Footer() {
         }}
       >
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-            <svg viewBox="0 0 100 100" width="32" height="32">
-              <rect width="100" height="100" rx="20" fill="#090909" />
-              <text x="50" y="68" fontSize="58" fontFamily="sans-serif" fontWeight="700" fill="#ffffff" textAnchor="middle">O2</text>
-            </svg>
-            <strong>{t('brand.name')}</strong>
-          </div>
+          <img src="/logo.png" alt="O2 Smart" style={{ height: 56, marginBottom: 10 }} />
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', lineHeight: 1.6 }}>{t('footer.description')}</p>
         </div>
 
@@ -51,10 +48,10 @@ export default function Footer() {
 
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 'var(--space-3)', borderTop: '1px solid var(--color-border)', paddingTop: 'var(--space-3)', color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>
         <span>© {t('footer.powered_by')} Teknulugy</span>
-        <span style={{ display: 'flex', gap: 8 }}>
-          <PaymentBadge>KNET</PaymentBadge>
-          <PaymentBadge>VISA</PaymentBadge>
-          <PaymentBadge>MC</PaymentBadge>
+        <span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <img src={knetIcon} alt="KNET" height={24} />
+          <img src={mastercardIcon} alt="Mastercard" height={24} />
+          <img src={visaIcon} alt="Visa" height={24} />
         </span>
       </div>
     </footer>
@@ -81,13 +78,5 @@ function BrandLinks() {
       <li><Link to="/brands">Samsung</Link></li>
       <li><Link to="/brands">Xiaomi</Link></li>
     </>
-  );
-}
-
-function PaymentBadge({ children }) {
-  return (
-    <span style={{ border: '1px solid var(--color-border)', borderRadius: 4, padding: '2px 8px', fontSize: '0.7rem', fontWeight: 700 }}>
-      {children}
-    </span>
   );
 }
