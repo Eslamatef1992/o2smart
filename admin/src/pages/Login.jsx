@@ -12,6 +12,7 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -39,16 +40,24 @@ export default function Login() {
 
   return (
     <div className="login-screen">
-      <div className="card login-card">
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
-          <button type="button" className="btn btn-outline btn-sm" onClick={() => setLanguage(nextLang)}>
-            {nextLang === 'ar' ? 'عربي' : 'EN'}
-          </button>
+      <div className="login-blob login-blob--a" aria-hidden="true" />
+      <div className="login-blob login-blob--b" aria-hidden="true" />
+      <div className="login-blob login-blob--c" aria-hidden="true" />
+
+      <button type="button" className="login-lang-toggle" onClick={() => setLanguage(nextLang)}>
+        {nextLang === 'ar' ? 'عربي' : 'EN'}
+      </button>
+
+      <div className="login-panel">
+        <div className="login-brand">
+          <img src="/logo-white.png" alt="O2 Smart" className="login-logo" />
+          <p className="login-tagline">{t('login.subtitle')}</p>
         </div>
-        <h1>{t('login.title')}</h1>
-        <p>{t('login.subtitle')}</p>
-        <form onSubmit={handleSubmit}>
-          <div className="form-field">
+
+        <h1 className="login-welcome">{t('login.welcome')}</h1>
+
+        <form onSubmit={handleSubmit} noValidate>
+          <div className="login-field">
             <label htmlFor="email">{t('login.email')}</label>
             <input
               id="email"
@@ -57,20 +66,45 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoFocus
+              autoComplete="username"
             />
           </div>
-          <div className="form-field">
+
+          <div className="login-field">
             <label htmlFor="password">{t('login.password')}</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="login-field__input-wrap">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="login-eye-btn"
+                onClick={() => setShowPassword((s) => !s)}
+                aria-label={showPassword ? t('login.hide_password') : t('login.show_password')}
+              >
+                {showPassword ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
-          {error && <p className="form-error">{error}</p>}
-          <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={submitting}>
+
+          {error && <p className="login-error">{error}</p>}
+
+          <button type="submit" className="login-submit" disabled={submitting}>
             {submitting ? t('login.submitting') : t('login.submit')}
           </button>
         </form>

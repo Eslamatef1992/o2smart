@@ -22,10 +22,13 @@
   "login": {
     "title": "تسجيل الدخول",
     "subtitle": "لوحة تحكم O2 Smart",
+    "welcome": "أهلاً بعودتك!",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "submit": "تسجيل الدخول",
     "submitting": "جاري تسجيل الدخول...",
+    "show_password": "إظهار كلمة المرور",
+    "hide_password": "إخفاء كلمة المرور",
     "error_generic": "حدث خطأ ما. حاول مرة أخرى."
   },
   "common": {

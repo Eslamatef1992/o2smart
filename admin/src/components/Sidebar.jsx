@@ -30,7 +30,7 @@ export default function Sidebar() {
   return (
     <aside className="admin-sidebar">
       <div className="admin-sidebar__brand">
-        <img src="/logo.png" alt="" style={{ height: 32, filter: 'invert(1)' }} />
+        <img src="/logo-white.png" alt="" style={{ height: 32 }} />
         {t('app_name')}
       </div>
       <nav className="admin-sidebar__nav">

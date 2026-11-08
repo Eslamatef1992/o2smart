@@ -22,10 +22,13 @@
   "login": {
     "title": "Sign in",
     "subtitle": "O2 Smart Admin Panel",
+    "welcome": "Welcome Back!",
     "email": "Email",
     "password": "Password",
     "submit": "Sign in",
     "submitting": "Signing in...",
+    "show_password": "Show password",
+    "hide_password": "Hide password",
     "error_generic": "Something went wrong. Please try again."
   },
   "common": {
