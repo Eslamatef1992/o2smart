@@ -1,8 +1,8 @@
-/* Same design tokens as the storefront (frontend/src/styles/tokens.css) —
-   kept in sync manually since these are two separate Vite apps. See
-   build-spec.md §4 / §3 (Figma has no dedicated admin screens, so the admin
-   panel is built in the storefront's visual language: near-black primary,
-   white/soft-gray surfaces, the same color ramps). */
+/* Dark theme, matching the admin login screen's palette (see the
+   .login-screen block in index.css) so the whole panel — not just the
+   login page — reads as one consistent product. The old light-theme
+   White/Mine Shaft ramps are kept below for any legacy reference, but
+   every semantic --color-* token below now points at the dark palette. */
 :root {
   --white-50: #ffffff;
   --white-100: #f8f8f8;
@@ -31,17 +31,31 @@
   --accent-red: #ef4444;
   --accent-green: #22c55e;
   --accent-amber: #f59e0b;
+  --accent-red-soft: #f87171;
+  --accent-green-soft: #4ade80;
+  --accent-amber-soft: #fbbf24;
 
-  --color-bg: var(--white-100);
-  --color-surface: var(--white-50);
-  --color-text: var(--white-950);
-  --color-text-muted: var(--white-500);
-  --color-border: var(--white-300);
-  --color-primary: var(--white-950);
-  --color-primary-contrast: var(--white-50);
-  --color-sidebar-bg: var(--mine-950);
-  --color-sidebar-text: var(--mine-300);
-  --color-sidebar-text-active: var(--white-50);
+  /* Dark navy family, same tone as the login screen's background. */
+  --navy-950: #1b1c2c;
+  --navy-900: #22233a;
+  --navy-800: #2a2b45;
+  --navy-700: #353655;
+  --navy-600: #44456b;
+
+  --color-bg: var(--navy-900);
+  --color-surface: var(--navy-800);
+  --color-surface-alt: var(--navy-700);
+  --color-text: #f3f4fa;
+  --color-text-muted: #a7a9c4;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-hover: rgba(255, 255, 255, 0.06);
+  --color-success: var(--accent-green-soft);
+
+  --color-primary: #5fe3e7;
+  --color-primary-contrast: #0e2a2c;
+  --color-sidebar-bg: var(--navy-950);
+  --color-sidebar-text: #a7a9c4;
+  --color-sidebar-text-active: #ffffff;
 
   --radius-md: 8px;
   --radius-lg: 16px;

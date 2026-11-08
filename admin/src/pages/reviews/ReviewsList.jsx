@@ -89,7 +89,7 @@ export default function ReviewsList() {
       return <span className="badge badge-inactive">Rejected</span>;
     }
     return (
-      <span className="badge" style={{ background: 'rgba(245,158,11,0.15)', color: '#b45309' }}>
+      <span className="badge" style={{ background: 'rgba(245,158,11,0.18)', color: 'var(--accent-amber-soft)' }}>
         Pending
       </span>
     );

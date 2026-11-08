@@ -404,7 +404,7 @@ export default function ProductForm() {
             variant combinations (e.g. 256GB + Black) — each variant tracks its own SKU, price and stock.
           </p>
           {variants.map((v, i) => (
-            <div key={i} className="card" style={{ marginBottom: 10, background: 'var(--white-100)' }}>
+            <div key={i} className="card" style={{ marginBottom: 10, background: 'var(--color-surface-alt)' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr auto', gap: 8, alignItems: 'end' }}>
                 <div className="form-field" style={{ marginBottom: 0 }}>
                   <label>SKU</label>

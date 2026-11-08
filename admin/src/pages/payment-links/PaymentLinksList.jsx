@@ -15,7 +15,7 @@ function StatusBadge({ status }) {
   }
   // 'pending' — no dedicated badge class exists for this status yet.
   return (
-    <span className="badge" style={{ background: 'rgba(245,158,11,0.15)', color: '#b45309' }}>
+    <span className="badge" style={{ background: 'rgba(245,158,11,0.18)', color: 'var(--accent-amber-soft)' }}>
       Pending
     </span>
   );
