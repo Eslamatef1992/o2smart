@@ -44,13 +44,13 @@ export default function Home() {
   return (
     <div>
       {hero ? (
-        <Link to={hero.link_url || '#'} style={{ display: 'block', borderRadius: 'var(--radius-lg)', overflow: 'hidden', marginBottom: 'var(--space-5)' }}>
-          <img src={hero.image_url} alt={i18n.language === 'ar' ? hero.title_ar : hero.title_en} style={{ width: '100%', maxHeight: 340, objectFit: 'cover' }} />
+        <Link to={hero.link_url || '#'} className="full-bleed" style={{ display: 'block', overflow: 'hidden', marginBottom: 'var(--space-5)' }}>
+          <img src={hero.image_url} alt={i18n.language === 'ar' ? hero.title_ar : hero.title_en} style={{ width: '100%', maxHeight: 440, objectFit: 'cover' }} />
         </Link>
       ) : (
         <div
+          className="full-bleed"
           style={{
-            borderRadius: 'var(--radius-lg)',
             marginBottom: 'var(--space-5)',
             padding: 'var(--space-6)',
             background: 'linear-gradient(135deg, var(--mine-900), var(--mine-700))',

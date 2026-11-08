@@ -16,6 +16,10 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  /* The .full-bleed hero trick measures against 100vw, which on some
+     browsers includes the scrollbar's own width — without this it can
+     introduce a few pixels of unwanted horizontal scroll. */
+  overflow-x: hidden;
 }
 
 [dir='rtl'] body {
@@ -51,9 +55,18 @@ ul {
 /* ---------- layout ---------- */
 
 .container {
-  max-width: 1320px;
+  max-width: 1600px;
   margin-inline: auto;
   padding-inline: var(--space-4);
+}
+
+/* Lets a section (e.g. the homepage hero banner) break out of .container
+   and span the full viewport width, the way a hero image typically does on
+   reference e-commerce sites, without restructuring the page layout that
+   wraps every route in .container. */
+.full-bleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
 }
 
 .card {
