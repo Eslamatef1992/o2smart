@@ -15,7 +15,7 @@ router.post('/', requireAdminAuth, (req, res, next) => {
   upload.single('image')(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       if (err.code === 'LIMIT_FILE_SIZE') {
-        return fail(res, 'Image is too large — 8MB max.', 422);
+        return fail(res, 'Image is too large — 2000MB max.', 422);
       }
       return fail(res, err.message, 422);
     }

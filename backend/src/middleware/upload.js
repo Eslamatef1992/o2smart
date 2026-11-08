@@ -20,7 +20,11 @@ const EXT_BY_MIME = {
   'image/svg+xml': '.svg',
 };
 
-const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB — plenty for product/banner photos
+const MAX_FILE_SIZE = 2000 * 1024 * 1024; // 2000MB, per the client's request — note this also
+// requires the Nginx reverse proxy's client_max_body_size to be raised to
+// match (Nginx's own 1MB default rejects anything bigger *before* it ever
+// reaches this Node limit, with a plain non-JSON error the admin panel can't
+// show a specific message for). See the server-side deploy note for this.
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
